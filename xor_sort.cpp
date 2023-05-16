@@ -1,6 +1,6 @@
 #include <bits/stdc++.h>
 using namespace std;
-int main()
+int main() 
 
 {
 int t;
@@ -37,8 +37,9 @@ for(int i=0;i<n;i++){
       for(int i=0;i<num.size();i++){
       if(num[i]<min[0][0])
       { min[0][0]=num[i];
-        min[0][2]=i+2;}
-        min[0][1]=i+1;
+       min[0][1]=1;
+       min[0][2]=i+2;}
+        
             }
 
       if(min[0][0]<arr[0])       

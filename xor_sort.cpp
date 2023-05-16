@@ -1,6 +1,6 @@
 #include <bits/stdc++.h>
 using namespace std;
-int main() 
+int main()
 
 {
 int t;
@@ -37,9 +37,9 @@ for(int i=0;i<n;i++){
       for(int i=0;i<num.size();i++){
       if(num[i]<min[0][0])
       { min[0][0]=num[i];
-       min[0][1]=1;
-       min[0][2]=i+2;}
-        
+        }
+        min[0][1]=1;
+        min[0][2]=i+2;
             }
 
       if(min[0][0]<arr[0])       
@@ -47,7 +47,10 @@ for(int i=0;i<n;i++){
       counter++;
       }   
       
-                   
+       else{ min[0][1]=1;
+        min[0][2]=0;
+
+       }            
       if(i!=0){
       for(int k=0; k<n-1; k++)
        {  
@@ -63,7 +66,7 @@ for(int i=0;i<n;i++){
        
       if(store.size()!=0){
       min[i][0]=store[0][0];
-      min[i][2]=i+1;
+      min[i][1]=i+1;
       min[i][2]=store[0][1];}
       for(int l=0;l<store.size();l++)
          {
@@ -73,11 +76,11 @@ for(int i=0;i<n;i++){
                 min[i][2]=store[l][1];
                      }
                    }
-       if(store.size()==0)
-       { arr[i]=0;
-       cout<<"fail case";}            
+    //    if(store.size()==0)
+    //    { arr[i]=0;
+    //    cout<<"fail case";}            
     
-      if(arr[i]<min[i][0] && arr[i]>arr[i-1] )
+      if(arr[i]<min[i][0] && arr[i]>=arr[i-1] )
       {  
          min[i][0]=arr[i];
          min[i][1]=i+1;
@@ -89,6 +92,12 @@ for(int i=0;i<n;i++){
       arr[i]=min[i][0];
       counter++;
       }}
+
+     if(store.size()==0)
+     { if(arr[i]<arr[i-1])
+     { min[i][0]=arr[i];
+      min[i][1]=i+1;
+      min[i][2]=0;}}
 
     //   cout<<"val "<<arr[i]<<endl;
       }
@@ -102,7 +111,7 @@ for(int i=0;i<n;i++){
 }
 
 cout<<endl<<counter<<endl;
-for(int i=0; i<min.size();i++)
+for(int i=0; i<n;i++)
 {   if(min[i][2]!=0){
     cout<<min[i][1]<<" "<<min[i][2]<<endl;}
 }

@@ -1,6 +1,6 @@
 #include <bits/stdc++.h>
 using namespace std;
-bool check(int n, vector<int> a){
+int check(int n, vector<int> a){
     int b = 0;
     int z;
     for(int j = 0; j < n; j++){
@@ -21,41 +21,48 @@ void printsoln(vector <int> a, int n){
     cout<<i+1<<" "<<a[i]<<endl;
    }
 }
-void assign(vector <int> a,int k, int l, int n, vector<vector<int>> matrix){
-    if (n >= l){
+void assign(vector <int> a,int k, int l, int n, int arr[50][50] ){
+    if (n == l){
         printsoln(a, l);
     }
     else{
     for(int i = 0; i < k; i++){
-        a[n] = matrix[n][i];
-        if(check(n, a)){
-            assign(a, k, l, n+1, matrix);
+        int work = arr[n][i];
+        a.push_back(work);
+        if(n == 0){
+            assign(a, k, l, n+1, arr);
+        }
+        if(n >= 1){
+        if(check(n, a) > 0){
+            assign(a, k, l, n+1, arr);
         }
         else if(check(n, a) < 0){
-            a.pop_back();
+             a.pop_back();
             int count=0;
             for(int v = 0; v < n; v++){
-                if(a[v] == matrix[v][k]){
+                int p = arr[v][k];
+                if(a[v] == p){
                  count++;
                 }
             }
-            if (count == n-1){
+            if (count == n){
                 cout<<"No solution"<<"-1";
                 break;
             }
         }
 
-    }
+    }}
     }
 }
 int main(){
-    int  n, m;
+    int  n, m, k;
     cin>>n>>m;
     if(n>m){
         cout<<"No solution"<<" "<<-1<<endl;
     }
     else{
     vector<vector<int>> matrix;
+    int arr[50][50]={0};
     for (int i = 0; i < n+1; i++){
        string line;
        vector<int> row;
@@ -67,11 +74,14 @@ int main(){
        row.push_back(a); 
        }
        }
-       matrix.push_back(row);
+       k = row.size();
+        for( int z = 0; z < k; z++){
+            arr[i-1][z] = row[z];
+        }
        }
+       
     }
-    int k = matrix[0].size();
     vector <int> a;
-    assign(a, k, n, 0, matrix);
+     assign(a, k, n, 0, arr);
 }
-}
+ }

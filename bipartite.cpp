@@ -1,13 +1,16 @@
 #include <bits/stdc++.h>
 using namespace std;
+int counter = 0;
 int check(int n, vector<int> a){
     int b = 0;
     int z;
+    int y = a[n];
+    if(n > 0){
     for(int j = 0; j < n; j++){
-        if(a[j] == a[n] ){
+        if(a[j] == y ){
             b = -1;
         }
-    } 
+    } }
     if(b == -1) 
     { z = -1;}
     if(b == 0){
@@ -17,22 +20,29 @@ int check(int n, vector<int> a){
 
 }
 void printsoln(vector <int> a, int n){
-   for(int i = 0; i < n; i++){
+   if(counter == 0){
+    for(int i = 0; i < n; i++){
     cout<<i+1<<" "<<a[i]<<endl;
    }
+   counter = 1;
+}
 }
 void assign(vector <int> a,int k, int l, int n, int arr[50][50] ){
     if (n == l){
         printsoln(a, l);
     }
-    else{
+   
     for(int i = 0; i < k; i++){
+        if(n == l){
+            break;
+        }
         int work = arr[n][i];
         a.push_back(work);
         if(n == 0){
             assign(a, k, l, n+1, arr);
         }
         if(n >= 1){
+
         if(check(n, a) > 0){
             assign(a, k, l, n+1, arr);
         }
@@ -51,9 +61,12 @@ void assign(vector <int> a,int k, int l, int n, int arr[50][50] ){
             }
         }
 
-    }}
     }
-}
+    
+    
+    }
+    }
+
 int main(){
     int  n, m, k;
     cin>>n>>m;

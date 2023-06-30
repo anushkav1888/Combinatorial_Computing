@@ -1,83 +1,96 @@
 #include <bits/stdc++.h>
+
 using namespace std;
-int front;
-int j=0;
-int counter=0;
-int N;
-int k;
-int b;
-vector <int> S;
+int count1 = 0;
+int count2 = 0;
 
-void printSubset( vector<int> sub, vector<int> S) {
-  vector <vector<int>> list;
-  list[0][0] = front;
-  while ( S.size()>-1){
-  for( int i =0; i < sub.size(); i++){
-  list[j][i+1]=sub[i];
-  }
-  for( int i =0; i < sub.size(); i++){
-   S.erase(S.begin());
-
-  }
-   b=S.size()-sub.size();
-     j++;
-  comp(S, b);
-  if(S.size()==0)
-  { counter++;}
-  if(counter==k)
-  {
-    cout<<"yes";
-  }
-}
-  
- 
+void give(vector<vector<vector<int>>> matrix, int k){
+    for(int i = 0; i < matrix.size(); i++){
+        for(int j = 0; j < matrix[i].size(); j++){
+            cout<<matrix[k][i][j]<<" ";
+        }
+        cout<<endl;
+    }
 }
 
+bool isSmallerPartition(const vector<int>& partition1, const vector<int>& partition2) {
+    if (partition1.size() < partition2.size()) {
+        return true;
+    } else if (partition1.size() > partition2.size()) {
+        return false;
+    }
 
+    for (size_t i = 0; i < partition1.size(); ++i) {
+        if (partition1[i] < partition2[i]) {
+            return true;
+        } else if (partition1[i] > partition2[i]) {
+            return false;
+        }
+    }
 
+    return false; //checks whether two 2d vec k first row compare
+}
 
-void backtrack(const vector<int>& nums, vector<int>& subset, int start, int size) {
-   
-    if (subset.size() == size) {
-      
-        printSubset(subset, nums);
+void generateSubsets(const vector<int>& set, vector<int> set_in_use, vector<int>& subset, int index, vector<vector<vector<int>>>& partition_store) {
+    if( index == set_in_use.size() && subset.size() == 0){
         return;
     }
-
- 
-    for (int i = start; i < nums.size(); i++) {
     
-        subset.push_back(nums[i]);
+    
+    if (index == set_in_use.size() && subset.size()>0 )         //subset found
+     { 
+        partition_store[count1].push_back(subset);
+        for(int i = 0; i < subset.size(); i++){
+            int valueToRemove = subset[i];
+            auto it = find(set_in_use.begin(), set_in_use.end(), valueToRemove);
+            if (it != set_in_use.end()) {
+            set_in_use.erase(it);
+            }
+        }    
+            index = -1;
+            return;
+        }
+        if(set_in_use.size() != 0 && set_in_use.size() < set.size()){
+            generateSubsets(set, set_in_use, subset,index+1, partition_store);
+            subset.push_back(set[index]);
+            generateSubsets(set,  set_in_use, subset,index + 1, partition_store);
+             subset.pop_back();
 
-        
-        backtrack(nums, subset, i + 1, size);
+        }
+        if(set_in_use.size() == 0){
+            count1++;
+            set_in_use = set;
+        }
 
-        subset.pop_back();
-    }
+    generateSubsets(set, set_in_use, subset, index + 1, partition_store);
+    subset.push_back(set[index]);
+    generateSubsets(set,  set_in_use, subset,index + 1, partition_store);
+    subset.pop_back();
 }
 
-void printSubsetsOfSize( vector<int>& S, int size) {
+
+
+void generateAllsubsets(const vector<int>& set, vector<vector<int>>& all, int k){
+    vector<vector<vector<int>>> part(k + 1, vector<vector<int>>());
+    vector<int> set_in_use = set;
     vector<int> subset;
-    backtrack(S, subset, 0, size);
+    generateSubsets(set,set_in_use, subset, 0, part);
+     give(part, k);
+
+
 }
-void comp(vector<int> S, int N )
-{
-    front = S[0];
-    S.erase(S.begin());
-    for(k = 0; k < N; k++){
-    printSubsetsOfSize(S,k);
+
+int main() {
+    int N;
+    cin >> N;
+    vector<int> set;
+    for(int i = 0; i < N; i++){
+        set.push_back(i+1);
     }
+    int k; 
+    cin >> k;
+    vector<vector<int>> all;
+    generateAllsubsets(set ,all, k);
 
-}
-
-
-
-int main()
-{
-cin>>N>>k;
-for(int i = 1; i < N+1; i++)
-{
-    S.push_back(i);
-}
-comp(S, N);
+    return 0;
 }

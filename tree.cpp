@@ -12,6 +12,7 @@ struct node{
     }
 };
 
+
 void printLabeledBinaryTree(struct node* root, int level = 0) {
     if (root == nullptr) {
         return;
@@ -28,17 +29,17 @@ void printLabeledBinaryTree(struct node* root, int level = 0) {
     printLabeledBinaryTree(root->leftptr, level + 1);
 }
 
-void assign(struct node* root, vector <int> row ){
+void assign(struct node* root, vector <int> row , char a){
  if(row.size() > 0){    
-    if(row[0] % 2 == 0){
+    if(a == 'l'){
         root->leftptr = new node(row[0]);
         row.erase(row.begin());
-        assign(root->leftptr, row);        
+        assign(root->leftptr, row, 'l');        
     }
-    else{
+    else if(a == 'r' && row.size() > 0){
         root->rightptr = new node(row[0]);
         row.erase(row.begin());
-        assign(root->rightptr, row);  
+        assign(root->rightptr, row, 'r');  
     }
  } 
 }
@@ -48,7 +49,9 @@ void central_unit(struct node* root, int index, char a, vector<vector<int>> matr
     }
    
     if(a == 'r'){
-     assign(root->leftptr->rightptr, matrix[index]);
+     assign(root->leftptr, matrix[index], 'r');
+      if(index == (matrix.size()-1) ) {
+        return;}
      if(matrix[index+1][0] % 2 == 0){
      central_unit(root->leftptr, index+1,'l',matrix);
      }
@@ -59,7 +62,10 @@ void central_unit(struct node* root, int index, char a, vector<vector<int>> matr
     
     else if (a == 'l')
     {
-      assign(root->rightptr->leftptr, matrix[index]);  
+      assign(root->rightptr, matrix[index], 'l');
+      if(index == (matrix.size()-1) ) {
+        return;
+      }
       if(matrix[index+1][0] % 2 == 0){
      central_unit(root->rightptr, index+1,'l',matrix);
      }
@@ -88,10 +94,15 @@ int main(){
        matrix.push_back(row);
        }
     }
-    struct node* start = new node(0);
-    assign(start, matrix[0]);
-    assign(start, matrix[1]);
+    struct node* start = new node(00);
+    assign(start, matrix[0], 'l');
+    if(matrix.size() >=2 ){
+    assign(start, matrix[1], 'r');
+    }
     char a;
+     if(matrix.size() <= 2){
+     printLabeledBinaryTree(start);}
+    if(matrix.size() > 2){
     if(matrix[2][0] % 2 == 0){
         a = 'l';
     }
@@ -100,5 +111,6 @@ int main(){
     }
     central_unit(start, 2, a, matrix);
     printLabeledBinaryTree(start);
+    }
 
 }

@@ -1,27 +1,7 @@
 #include <bits/stdc++.h>
 using namespace std;
-int main()
 
-{
-int t;
-cin>>t;
-
-int counter=0;
-
-while(t--){
-
-int n;
-cin>>n;
-
-int arr[n];
-for (int i=0;i<n;i++){
-cin>>arr[i];}
-
-vector < vector <int>> store;
-vector <int> num;
-vector<vector<int>> min;
-
-
+void f(vector <int> num, int n, int &counter, int arr[100],vector < vector <int>> store, int min[100][3] ){
 
 for(int i=0;i<n;i++){
       for (int j=0;j<n; j++ )     
@@ -29,8 +9,7 @@ for(int i=0;i<n;i++){
         num.push_back(arr[i]^arr[j]);
        }}
      
-      
-      min[0][0]=num[0];  
+      min[0][0] = num[0];
        
       if(i==0){
 
@@ -50,7 +29,7 @@ for(int i=0;i<n;i++){
        else{ min[0][1]=1;
         min[0][2]=0;
 
-       }            
+       }   }         
       if(i!=0){
       for(int k=0; k<n-1; k++)
        {  
@@ -76,9 +55,7 @@ for(int i=0;i<n;i++){
                 min[i][2]=store[l][1];
                      }
                    }
-    //    if(store.size()==0)
-    //    { arr[i]=0;
-    //    cout<<"fail case";}            
+             
     
       if(arr[i]<min[i][0] && arr[i]>=arr[i-1] )
       {  
@@ -99,22 +76,84 @@ for(int i=0;i<n;i++){
       min[i][1]=i+1;
       min[i][2]=0;}}
 
-    //   cout<<"val "<<arr[i]<<endl;
+  
       }
       store.clear();
       num.clear();
-      
+     
 
       }
-
-
 }
 
-cout<<endl<<counter<<endl;
-for(int i=0; i<n;i++)
+
+
+int main()
+
+
+{
+int t;
+cin>>t;
+while(t--){
+
+int n;
+cin>>n;
+int counter=0;
+int arr[100];
+for (int i=0;i<n;i++){
+cin>>arr[i];}
+
+   int fla = 0;
+
+    for(int l = 0;l<n; l++){
+        if(arr[l] > arr[l+1]){
+          fla = 1;
+        }}
+
+    if(fla == 0){
+        cout<<"0"<<endl;
+        continue;
+    }
+    if(fla == 1){   
+vector < vector <int>> store;
+vector <int> num;
+int min[100][3];
+int p = 4;
+f(num,n,counter,arr,store,min);
+bool flag = true;
+
+while(p ){
+    for(int l = 0;l<n; l++){
+        if(arr[l] > arr[l+1]){
+            flag = false;
+            p = p -1;
+        }
+        if(l == n-1){
+            p = 0;
+        }
+        if(flag == false){
+            f(num,n,counter,arr,store,min);
+            flag = true;
+        }
+    }
+}
+
+  int h=0;
+  for(int i=0; i< n ;i++)
 {   if(min[i][2]!=0){
-    cout<<min[i][1]<<" "<<min[i][2]<<endl;}
+     h++;
+    ;}
+}
+cout<<h<<endl;
+for(int i=0; i< n ;i++)
+{   if(min[i][2]!=0){
+    cout<<min[i][1]<<" "<<min[i][2]<<endl
+    ;}
 }
 
+for(int i=0; i< n ;i++)
+// {   cout<<arr[i]<<" ";
+
+}
+    }
 }
 }

@@ -36,7 +36,7 @@ def solve_sudoku(puzzle):
         return solution
     else:
         return None
-
+ 
 
 inputarr = list(map(int,input().split()))
 puzzle = []

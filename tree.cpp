@@ -97,7 +97,7 @@ int main(){
     struct node* start = new node(00);
     assign(start, matrix[0], 'l');
     if(matrix.size() >=2 ){
-    assign(start, matrix[1], 'r');
+    assign(start, matrix[1], 'r'); 
     }
     char a;
      if(matrix.size() <= 2){

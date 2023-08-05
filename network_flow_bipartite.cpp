@@ -123,9 +123,18 @@ int main()
 
 
 		 fordFulkerson(V ,graph, 0, n + m +1, ans, n);
+	bool flag = true;
+		 for(int a = 1; a < n+1; a++){
+			if(ans[a][1] == -1){
+				flag = false;
+			}
+		 }
+		if(flag == true){
 		 for(int a = 1; a < n+1; a++){
 			cout<<ans[a][0]<<" "<<ans[a][1]<<endl;
 		 }
-
+		}
+		if(flag == false){
+			cout<<"-1"<<endl;}
 	return 0;
 }

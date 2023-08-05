@@ -1,6 +1,7 @@
 #include <bits/stdc++.h>
 using namespace std;
 int counter = 0;
+bool flag = true;
 int check(int n, vector<int> a){
     int b = 0;
     int z;
@@ -13,12 +14,13 @@ int check(int n, vector<int> a){
     } }
     if(b == -1) 
     { z = -1;}
-    if(b == 0){
+    if(b == 0){ 
         z = 1;
     }
     return z;
 
 }
+
 void printsoln(vector <int> a, int n){
    if(counter == 0){
     for(int i = 0; i < n; i++){
@@ -27,38 +29,54 @@ void printsoln(vector <int> a, int n){
    counter = 1;
 }
 }
+
 void assign(vector <int> a,int k, int l, int n, int arr[50][50] ){
     if (n == l){
         printsoln(a, l);
     }
    
     for(int i = 0; i < k; i++){
+        if(flag == false){
+    break;
+   }
         if(n == l){
             break;
         }
+
         int work = arr[n][i];
         a.push_back(work);
+
         if(n == 0){
             assign(a, k, l, n+1, arr);
         }
+
         if(n >= 1){
 
         if(check(n, a) > 0){
             assign(a, k, l, n+1, arr);
         }
-        else if(check(n, a) < 0){
-             a.pop_back();
-            int count=0;
-            for(int v = 0; v < n; v++){
-                int p = arr[v][k];
+
+        if(flag == false){
+    break;
+   }
+
+        if(check(n, a) < 0){                                              
+            
+             int p;
+            int count=0; 
+            for(int v = 0; v <= i; v++){  
+                 p = arr[v][k-1];               
                 if(a[v] == p){
                  count++;
                 }
             }
-            if (count == n){
-                cout<<"No solution"<<"-1";
+            if (count == i+1){
+                cout<<"-1"<<endl;
+                flag = false;
                 break;
+
             }
+             a.pop_back();
         }
 
     }
@@ -71,7 +89,7 @@ int main(){
     int  n, m, k;
     cin>>n>>m;
     if(n>m){
-        cout<<"No solution"<<" "<<-1<<endl;
+        cout<<-1<<endl;
     }
     else{
     vector<vector<int>> matrix;

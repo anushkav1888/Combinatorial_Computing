@@ -77,7 +77,7 @@ for(int p = 1; p < n+1; p++){
 
 int main()
 {
-
+ 
 	int n, m;
 	cin>>n>>m;
 	int V = n + m + 2;

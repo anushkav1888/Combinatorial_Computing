@@ -11,7 +11,7 @@ int P(int N, int k)
      else if(N<k)
     { a=0;}
      else if(k==1)
-    { a=1;}
+    { a=1;} 
      else { a=P(N-k,k)+P(N-1,k-1);}
     return a;
 

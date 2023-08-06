@@ -7,7 +7,7 @@ for(int i=0;i<n;i++){
       for (int j=0;j<n; j++ )     
        { if(j!=i){
         num.push_back(arr[i]^arr[j]);
-       }}
+       }} 
      
       min[0][0] = num[0];
        

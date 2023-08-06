@@ -1,159 +1,92 @@
-#include <bits/stdc++.h>
+#include <iostream>
+#include <vector>
 using namespace std;
+int counter = 0;
+vector<vector<int>> inn;
+int findMinFromIndex(const vector<int>& vec, int i) {
+    if (i < 0 || i >= vec.size()) {
+        return 0;
+    }
 
-void f(vector <int> num, int n, int &counter, int arr[100],vector < vector <int>> store, int min[100][3] ){
-
-for(int i=0;i<n;i++){
-      for (int j=0;j<n; j++ )     
-       { if(j!=i){
-        num.push_back(arr[i]^arr[j]);
-       }} 
-     
-      min[0][0] = num[0];
-       
-      if(i==0){
-
-      for(int i=0;i<num.size();i++){
-      if(num[i]<min[0][0])
-      { min[0][0]=num[i];
+    int minElement = vec[i];
+    int index = i;
+    for (int j = i + 1; j < vec.size(); ++j) {
+        if (vec[j] < minElement) {
+            minElement = vec[j];
+            index = j; 
         }
-        min[0][1]=1;
-        min[0][2]=i+2;
-            }
+    }
 
-      if(min[0][0]<arr[0])       
-      { arr[0]=min[0][0];
-      counter++;
-      }   
-      
-       else{ min[0][1]=1;
-        min[0][2]=0;
-
-       }   }         
-      if(i!=0){
-      for(int k=0; k<n-1; k++)
-       {  
-         if( num[k]>=arr[i-1])
-         {  if(k<i)
-           { store.push_back({num[k],k+1});}
-           if(k>i)
-           {
-            store.push_back({num[k],k+2});
-           }
-         }
-       }
-       
-      if(store.size()!=0){
-      min[i][0]=store[0][0];
-      min[i][1]=i+1;
-      min[i][2]=store[0][1];}
-      for(int l=0;l<store.size();l++)
-         {
-            if(min[i][0]>store[l][0]){
-            
-                min[i][0]=store[l][0];
-                min[i][2]=store[l][1];
-                     }
-                   }
-             
-    
-      if(arr[i]<min[i][0] && arr[i]>=arr[i-1] )
-      {  
-         min[i][0]=arr[i];
-         min[i][1]=i+1;
-         min[i][2]=0;
-      }
-
-      else {
-        if(store.size()!=0){
-      arr[i]=min[i][0];
-      counter++;
-      }}
-
-     if(store.size()==0)
-     { if(arr[i]<arr[i-1])
-     { min[i][0]=arr[i];
-      min[i][1]=i+1;
-      min[i][2]=0;}}
-
-  
-      }
-      store.clear();
-      num.clear();
-     
-
-      }
+    return index;
 }
 
 
+void swapNumbers(std::vector<int>& numbers, int index1, int index2, vector<vector<int>> &in) {
+    if (index1 == index2) {
+        return;
+    }
 
-int main()
+    int number1 = numbers[index1];
+    int number2 = numbers[index2];
+
+    number1 = number1 ^ number2;
+    vector<int> row;
+    row.push_back(index1+1);
+    row.push_back(index2+1);
+    in.push_back(row);
+    row.clear();
+    number2 = number1 ^ number2;
+    row.push_back(index2+1);
+    row.push_back(index1+1);
+    in.push_back(row);
+    row.clear();
+    number1 = number1 ^ number2;
+    row.push_back(index1+1);
+    row.push_back(index2+1);
+    in.push_back(row);
+    row.clear();
 
 
-{
-int t;
+    numbers[index1] = number1;
+    numbers[index2] = number2;
+}
+
+int main() {
+    int t;
 cin>>t;
 while(t--){
-
-int n;
-cin>>n;
-int counter=0;
-int arr[100];
-for (int i=0;i<n;i++){
-cin>>arr[i];}
-
-   int fla = 0;
-
-    for(int l = 0;l<n; l++){
-        if(arr[l] > arr[l+1]){
-          fla = 1;
-        }}
-
-    if(fla == 0){
-        cout<<"0"<<endl;
-        continue;
+    int n;
+    cin>>n;
+    int arr[n];
+    for (int i=0;i<n;i++){
+    cin>>arr[i];}
+    vector<int> numbers;
+    for(int i = 0; i < n; i++){
+        numbers.push_back(arr[i]);
     }
-    if(fla == 1){   
-vector < vector <int>> store;
-vector <int> num;
-int min[100][3];
-int p = 4;
-f(num,n,counter,arr,store,min);
-bool flag = true;
-
-while(p ){
-    for(int l = 0;l<n; l++){
-        if(arr[l] > arr[l+1]){
-            flag = false;
-            p = p -1;
-        }
-        if(l == n-1){
-            p = 0;
-        }
-        if(flag == false){
-            f(num,n,counter,arr,store,min);
-            flag = true;
-        }
+    int index = 0;
+    for(int  i = 0; i < n; i++){
+    int a = findMinFromIndex(numbers, index);    
+    int index1 = index; 
+    int index2 = a;
+    if(index1 != index2){
+    swapNumbers(numbers, index1, index2, inn);
+    counter++;
     }
-}
-
-  int h=0;
-  for(int i=0; i< n ;i++)
-{   if(min[i][2]!=0){
-     h++;
-    ;}
-}
-cout<<h<<endl;
-for(int i=0; i< n ;i++)
-{   if(min[i][2]!=0){
-    cout<<min[i][1]<<" "<<min[i][2]<<endl
-    ;}
-}
-
-for(int i=0; i< n ;i++)
-// {   cout<<arr[i]<<" ";
-
-}
+    index++;
     }
+    for (int num : numbers) {
+        cout << num << " ";
+    }
+    cout << endl;
+    cout<<counter*3<<endl;
+
+    for(int p = 0; p < counter*3; p++){
+        
+        cout<<inn[p][0]<<" "<<inn[p][1]<<endl;
+        
+    }
+inn.clear();
+counter = 0;    
 }
 }

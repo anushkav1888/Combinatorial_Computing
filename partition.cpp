@@ -11,7 +11,7 @@ void give(vector<vector<vector<int>>> matrix, int k){
         }
         cout<<endl;
     }
-}
+} 
 
 bool isSmallerPartition(const vector<int>& partition1, const vector<int>& partition2) {
     if (partition1.size() < partition2.size()) {
